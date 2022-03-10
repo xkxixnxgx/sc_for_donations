@@ -110,3 +110,6 @@ typechain/
 # Hardhat files
 cache/
 artifacts/
+
+# python virtualenv
+.python-version
