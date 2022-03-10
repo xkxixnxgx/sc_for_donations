@@ -44,3 +44,35 @@ npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
 # Performance optimizations
 
 For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+
+
+# For development
+### Run tests or test-coverage
+```shell
+npm run test
+npm run test-coverage 
+```
+### Start hardhat node
+```shell
+npm run chain
+```
+### To compile the entire project, building your smart contracts
+```shell
+npm run compile
+```
+### To clean the cache and delete compiled smart contracts
+```shell
+npm run clean
+```
+### To run a deploy script in a local network
+```shell
+npm run deploy.AcceptingDonations
+```
+### To run a deploy script in a rinkeby network
+```shell
+npm run deploy.AcceptingDonations:rinkeby
+```
+### To run a `get donors` task in a rinkeby network
+```shell
+npm run task_rinkby_get-donors
+```
