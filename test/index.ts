@@ -3,26 +3,33 @@ import { ethers, waffle } from "hardhat";
 
 import AcceptingDonationsArtifact from '../artifacts/contracts/AcceptingDonations.sol/AcceptingDonations.json';
 import {AcceptingDonations} from '../typechain/AcceptingDonations';
+import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 
 const {deployContract} = waffle;
 
 
 describe('AcceptingDonations', function () {
+  let owner: SignerWithAddress;
+  let addr1: SignerWithAddress;
+  let addr2: SignerWithAddress;
+  let addr3: SignerWithAddress;
+
   let donations: AcceptingDonations;
 
-  it("Should return the new greeting once it's changed", async function () {
-    const signers = await ethers.getSigners();
-    donations = (await deployContract(signers[0], AcceptingDonationsArtifact, ['Hello, world!'])) as AcceptingDonations;
+  beforeEach(async () => {
+    // eslint-disable-next-line no-unused-vars
+    [owner, addr1, addr2, addr3] = await ethers.getSigners();
+  
+    donations = (await deployContract(owner, AcceptingDonationsArtifact)) as AcceptingDonations;
+  });
 
-    expect(await donations.transfer("0x70997970c51812dc3a010c7d01b50e0d17dc79c8", 23000)).to.equal('Hello, world!');
-
-    // const setGreetingTx = await donations.setGreeting('Hello, world!');
-
-    // // wait until the transaction is mined
-    // await setGreetingTx.wait();
-
-    expect(await donations.withdrawal("0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc", 23000)).to.equal('Hello, world!');
-    expect(await donations.getAccountsOfDonors()).to.equal('Hello, world!');
-    expect(await donations.amountOfAccountDonations("0x70997970c51812dc3a010c7d01b50e0d17dc79c8")).to.equal('Hello, world!');
+  describe('Test transfer', () => {
+    it("The contract balance should increase and the account balance should decrease.", async function () {
+      const signers = await ethers.getSigners();
+      donations = (await deployContract(signers[0], AcceptingDonationsArtifact)) as AcceptingDonations;
+      
+      const balance = await donations.connect(addr1).transfer("addr1", 23000);
+      expect(owner.getBalance()).to.equal(1000023000);
+    });
   });
 });
