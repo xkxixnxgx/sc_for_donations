@@ -21,6 +21,12 @@ contract AcceptingDonations {
   address[] public uniqFunders;
 
 
+  /// show contract balance
+  function currentBalance() public view returns(uint256) {
+    return address(this).balance;
+  }
+
+
   /// make a donation
   function transfer() public payable {
 
