@@ -1,69 +1,66 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract AcceptingDonations
-{
+contract AcceptingDonations {
+
+  /// save the address of the owner of the smart contract in the blockchain
+  address payable public owner;
+  constructor() payable {
+    owner = payable(msg.sender);
+  }
 
   struct Funder {
     address addr;
-    uint amount;
+    uint256 amount;
   }
 
-  address payable public owner;
-  constructor() payable {
-        owner = payable(msg.sender);
-    }
-
+  /// save an associative array in the blockchain to store the structure for each funder
   mapping (address => Funder) public funders;
-  address[] public uniqueFunders;
   
-  /// - внести пожертвование
-  function transfer(address sender, uint256 weis) public returns (bool) {
-    if (sender.balance == weis) {
-      owner.transfer(weis);
+  /// save an array of unique funders in the blockchain
+  address[] public uniqFunders;
 
-      uint coinsResult = weis;
-      Funder memory mark = funders[msg.sender];
-      if (mark.addr == sender) {
-        coinsResult = funders[sender].amount + weis;
-        funders[msg.sender].amount = coinsResult;
-      }
-      funders[msg.sender] = Funder({addr: msg.sender, amount: weis});
-      uniqueFunders.push(sender);
 
-      revert("Transfer from the address.");
+  /// make a donation
+  function transfer() public payable {
 
+    if (funders[msg.sender].amount != 0) {
+      uint correntBalance = funders[msg.sender].amount;
+      funders[msg.sender].amount = correntBalance + msg.value;
     } else {
-      revert("Insufficient funds in the account.");
+      funders[msg.sender] = Funder({
+        addr: msg.sender,
+        amount: msg.value
+        });
+      uniqFunders.push(msg.sender);
     }
+
+    revert("Transfer from the address.");
   }
 
 
-  /// - вывести любую сумму на любой адрес
-  function withdrawal(address to, uint256 weis) public returns (bool) {
-    require(msg.sender == owner);
-    require(owner.balance == weis);
-    owner.transfer(weis);
+  /// withdraw any amount to any address
+  function withdraw(address payable addressOutput, uint256 coins) public {
+    address payable _to = payable(addressOutput);
+    address _thisContract = address(this);
+
+    require(msg.sender == owner, "Your address in not owner.");
+    require(coins <= _thisContract.balance, "There are not so many coins.");
+    
+    _to.transfer(_thisContract.balance);
     revert("The funds were transferred.");
   }
 
 
-  /// - view функция, возвращающая список адресов, с которых вносились пожертвования (без повторений)
-  function getAccountsOfDonors() public view returns(address[] memory fundersArray) {
-    return uniqueFunders;
+  /// function that returns an array of unique funder addresses
+  function getAccountsOfDonors() public view returns(address[] memory) {
+    return uniqFunders;
   }
 
 
-  /// - view функция, возвращающая сумму пожертвований для определенного адреса
-  function amountOfAccountDonations(address addressFunder) public view returns(uint weis) {
-    Funder memory funder = funders[addressFunder];
-    if (funder.addr == addressFunder) {
-      revert("The amount of wei deposited from this account.");
-      return funder.amount;
-    }
-    revert("This account did not make donations.");
+  /// function that returns the amount of donations to a specific address
+  function amountOfAccountDonations(address addressFunder) public view returns(uint256) {
+    return funders[addressFunder].amount;
   }
-
-  function deposit() public payable {}
 
 }
