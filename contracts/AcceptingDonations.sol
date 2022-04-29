@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract AcceptingDonations {
 
   /// save the address of the owner of the smart contract in the blockchain
-  address payable public owner;
+  address public owner;
   constructor() payable {
     owner = payable(msg.sender);
   }
@@ -20,16 +20,12 @@ contract AcceptingDonations {
   /// save an array of unique funders in the blockchain
   address[] public uniqFunders;
 
-
-  /// show contract balance
-  function currentBalance() public view returns(uint256) {
-    return address(this).balance;
+  modifier onlyOwner() {
+    require(msg.sender == owner, "Your address in not owner.");
+    _;
   }
 
-
-  /// make a donation
-  function transfer() public payable {
-
+  modifier saveInfomtionsAboutDonation() {
     if (funders[msg.sender].amount != 0) {
       uint correntBalance = funders[msg.sender].amount;
       funders[msg.sender].amount = correntBalance + msg.value;
@@ -41,20 +37,38 @@ contract AcceptingDonations {
       uniqFunders.push(msg.sender);
     }
 
-    revert("Transfer from the address.");
+    emit Paid(msg.sender, msg.value);
+    
+    _;
+  }
+
+  event Paid(address _from, uint256 _amount);
+
+  fallback() external {
+
+  }
+
+  /// accept funds at the address of the contract
+  receive() external payable saveInfomtionsAboutDonation{
+  
+  }
+
+  /// show contract balance
+  function currentBalance() public view returns(uint256) {
+    return address(this).balance;
+  }
+
+
+  /// make a donation
+  function transfer() public payable saveInfomtionsAboutDonation {
   }
 
 
   /// withdraw any amount to any address
-  function withdraw(address payable addressOutput, uint256 coins) public {
+  function withdraw(address addressOutput, uint256 weis) public onlyOwner {
     address payable _to = payable(addressOutput);
-    address _thisContract = address(this);
 
-    require(msg.sender == owner, "Your address in not owner.");
-    require(coins <= _thisContract.balance, "There are not so many coins.");
-    
-    _to.transfer(_thisContract.balance);
-    revert("The funds were transferred.");
+    _to.transfer(weis);
   }
 
 
