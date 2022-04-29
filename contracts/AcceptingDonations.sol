@@ -36,8 +36,13 @@ contract AcceptingDonations {
         });
       uniqFunders.push(msg.sender);
     }
+
+    emit Paid(msg.sender, msg.value);
+    
     _;
   }
+
+  event Paid(address _from, uint256 _amount);
 
   fallback() external {
 
