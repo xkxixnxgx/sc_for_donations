@@ -32,12 +32,12 @@ npm run deploy.AcceptingDonations
 
 ### Now you can call smart contract functions.
 
-#### Checking the balance of a smart contract or any other account on the network
+#### Checking the balance of a smart contract or any other account on the network.
 ```shell
 npx hardhat balance --network localhost --account <ANY_ADDRESS>
 ```
 
-#### Checking the balance of a smart contract or any other account on the network
+#### Checking the balance of a smart contract or any other account on the network.
 ```shell
 npx hardhat balance --network localhost --account <ANY_ADDRESS>
 ```
@@ -67,7 +67,7 @@ npx hardhat withdraw --network localhost --contract <DEPLOYED_CONTRACT_ADDRESS> 
 npx hardhat getAccountsOfDonors --network localhost --contract <DEPLOYED_CONTRACT_ADDRESS>  --account <ANY_ADDRESS>
 ```
 
-####  View the amount of all donations of a certain account
+####  View the amount of all donations of a certain account.
 ```shell
 npx hardhat amountOfAccountDonations --network localhost --contract <DEPLOYED_CONTRACT_ADDRESS>  --account <ANY_ADDRESS>
 ```
@@ -102,7 +102,7 @@ npx hardhat verify --network rinkeby <DEPLOYED_CONTRACT_ADDRESS>
 
 ### Now you can work with a smart contract via Metamask and call some smart contract functions.
 
-#### Checking the balance of a smart contract or any other account on the network
+#### Checking the balance of a smart contract or any other account on the network.
 ```shell
 npx hardhat balance --network rinkeby --account <ANY_ADDRESS>
 ```
@@ -110,43 +110,45 @@ npx hardhat balance --network rinkeby --account <ANY_ADDRESS>
 #### Send coins to a smart contract via Metamask.
 #### Transfer coins from a smart contract to an arbitrary address. The function is available only for the owner of the smart contract.
 ####  View a list of all accounts that have deposited coins to the smart contract.
-####  View the amount of all donations of a certain account
+####  View the amount of all donations of a certain account.
 
-## For development
+## For development.
 
-#### View the list of network accounts
+#### View the list of network accounts.
 ```shell
 npm run accounts
 ```
-#### Run tests or test-coverage
+#### Run tests or test-coverage.
 ```shell
 npm run test
 npm run test-coverage 
 ```
-#### Start hardhat node
+#### Start hardhat node.
 ```shell
 npm run chain
 ```
-#### To compile the entire project, building your smart contracts
+#### To compile the entire project, building your smart contracts.
 ```shell
 npm run compile
 ```
-#### To clean the cache and delete compiled smart contracts
+#### To clean the cache and delete compiled smart contracts.
 ```shell
 npm run clean
 ```
-#### To run a deploy script in a local network
+#### To run a deploy script in a local network.
 ```shell
 npm run deploy.AcceptingDonations
 ```
-#### To run a deploy script in a rinkeby network
+#### To run a deploy script in a rinkeby network.
 ```shell
 npm run deploy.AcceptingDonations:rinkeby
 ```
 
-#### Try running some of the following default tasks:
+#### Code analyzers and autoformatting.
 ```shell
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
+npm run lint
+npm run prettier
+npm run prettier-write
+npm run solhint
+npm run solhint-fix
+```
