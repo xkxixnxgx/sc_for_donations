@@ -4,14 +4,17 @@
   "description": "smart contract for donations",
   "main": "index.js",
   "scripts": {
+    "accounts": "npx hardhat accounts",
     "clean": "npx hardhat clean",
-    "chain": "npx hardhat node",
+    "node": "npx hardhat node",
     "deploy.AcceptingDonations": "npx hardhat run --network localhost scripts/deploy.ts",
     "deploy.AcceptingDonations:rinkeby": "npx hardhat run --network rinkeby scripts/deploy.ts",
     "test": "npx hardhat test",
     "test-coverage": "npx hardhat coverage --testfiles 'test/*.ts'",
     "compile": "npx hardhat compile",
-    "verify": "npx hardhat verify --network rinkeby <YOUR_CONTRACT_ADDRESS>",
+    "lint": "npx eslint '**/*.{js,ts}'",
+    "lint-fix": "npx eslint '**/*.{js,ts}' --fix",
+    "verify:rinkeby": "npx hardhat verify --network rinkeby <YOUR_CONTRACT_ADDRESS>",
     "task_rinkby_get-donors": "npx hardhat get-donors.ts --network rinkeby"
   },
   "repository": {
@@ -46,7 +49,7 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-promise": "^5.2.0",
     "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.5.4",
+    "ethers": "^5.6.4",
     "hardhat": "^2.8.4",
     "hardhat-gas-reporter": "^1.0.8",
     "prettier": "^2.5.1",
@@ -57,5 +60,8 @@
     "ts-node": "^10.5.0",
     "typechain": "^5.2.0",
     "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "node": "^16.13.2"
   }
 }
