@@ -26,19 +26,20 @@ contract AcceptingDonations {
   }
 
   modifier saveInfomtionsAboutDonation() {
-    if (funders[msg.sender].amount != 0) {
-      uint correntBalance = funders[msg.sender].amount;
-      funders[msg.sender].amount = correntBalance + msg.value;
-    } else {
-      funders[msg.sender] = Funder({
-        addr: msg.sender,
-        amount: msg.value
-        });
-      uniqFunders.push(msg.sender);
-    }
+    if(msg.value != 0) {
+      if (funders[msg.sender].amount != 0) {
+        uint correntBalance = funders[msg.sender].amount;
+        funders[msg.sender].amount = correntBalance + msg.value;
+      } else {
+        funders[msg.sender] = Funder({
+          addr: msg.sender,
+          amount: msg.value
+          });
+        uniqFunders.push(msg.sender);
+      }
 
-    emit Paid(msg.sender, msg.value);
-    
+      emit Paid(msg.sender, msg.value);
+    }
     _;
   }
 

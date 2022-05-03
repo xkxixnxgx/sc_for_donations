@@ -14,6 +14,10 @@
     "compile": "npx hardhat compile",
     "lint": "npx eslint '**/*.{js,ts}'",
     "lint-fix": "npx eslint '**/*.{js,ts}' --fix",
+    "prettier": "npx prettier '**/*.{json,sol,md}' --check",
+    "prettier-write": "npx prettier '**/*.{json,sol,md}' --write",
+    "solhint": "npx solhint 'contracts/**/*.sol'",
+    "solhint-fix": "npx solhint 'contracts/**/*.sol' --fix",
     "verify:rinkeby": "npx hardhat verify --network rinkeby <YOUR_CONTRACT_ADDRESS>",
     "task_rinkby_get-donors": "npx hardhat get-donors.ts --network rinkeby"
   },

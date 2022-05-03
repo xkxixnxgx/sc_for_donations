@@ -45,12 +45,7 @@ describe('AcceptingDonations', function () {
   });
 
   describe('============= Event Paid Test =============', () => {
-    it("Send a donation to the contract wuthout function.", async function() {
-      const [sendCoinsTs, amount] = await sendCoins(addr1, 100);
-      await expect(() => sendCoinsTs).to.changeEtherBalances([donations, addr1], [amount, -amount]);
-    });
-
-    it("Checking the occurrence of an event and logging correct data.", async function() {
+    it('Checking the occurrence of an event and logging correct data.', async function () {
       const [sendCoinsTs, amount] = await sendCoins(addr1, 100);
       await expect(sendCoinsTs).to.emit(donations, "Paid").withArgs(addr1.address, amount);
     });
@@ -60,6 +55,15 @@ describe('AcceptingDonations', function () {
     it("Send a donation to the contract wuthout function.", async function() {
       const [sendCoinsTs, amount] = await sendCoins(addr1, 100);
       await expect(() => sendCoinsTs).to.changeEtherBalances([donations, addr1], [amount, -amount]);
+    });
+  });
+
+  describe('============= Current Balance Test =============', () => {
+    it('The balance is displayed correctly.', async function () {
+      const coins = 100;
+      await sendCoins(addr1, coins);
+      const balance = await donations.currentBalance();
+      await expect(balance).to.eq(coins);;
     });
   });
 
@@ -132,6 +136,13 @@ describe('AcceptingDonations', function () {
       const addressList = await donations.connect(addr3).getAccountsOfDonors();
 
       expect(addressList).to.have.lengthOf(1);
+    });
+
+    it('The account that sent 0 coins is not saved.', async function () {
+      await sendCoins(addr1, 0);
+      const addressList = await donations.connect(addr2).getAccountsOfDonors();
+
+      expect(addressList).to.be.an('array').that.is.empty;
     });
 
   });
